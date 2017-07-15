@@ -40,6 +40,8 @@ class User < ApplicationRecord
 
   has_many :manuals
 
+  alias_attribute :email, :uid
+
   EMAIL = 'email'.freeze
   ROLES = %w[admin user].freeze
 
@@ -50,10 +52,6 @@ class User < ApplicationRecord
     end
   end
 
-  def self.find_for_authentication(tainted_conditions)
-    super(tainted_conditions.merge(provider: EMAIL))
-  end
-
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.name = auth.info.name
@@ -62,34 +60,21 @@ class User < ApplicationRecord
     end
   end
 
-  def provider_email?
-    provider == EMAIL
+  def self.find_for_authentication(tainted_conditions)
+    super(tainted_conditions.merge(provider: EMAIL))
   end
 
   def send_confirmation_notification?
     confirmation_required? && !@skip_confirmation_notification && provider_email? && uid.present?
   end
 
-  def email
-    uid if provider_email?
-  end
-
-  def email=(value)
-    return value if provider_email?
-    raise ArgumentError, "Email can't be used for #{provider}."
-  end
-
-  def postpone_email_change?
-    postpone = self.class.reconfirmable &&
-               will_save_change_to_uid? &&
-               !@bypass_confirmation_postpone &&
-               uid.present? &&
-               (!@skip_reconfirmation_in_callback || !uid_in_database.nil?)
-    @bypass_confirmation_postpone = false
-    postpone
-  end
-
   def to_s
     name || email
+  end
+
+  private
+
+  def provider_email?
+    provider == EMAIL
   end
 end
