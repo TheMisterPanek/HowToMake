@@ -41,6 +41,14 @@ class User < ApplicationRecord
   has_many :manuals
 
   EMAIL = 'email'.freeze
+  ROLES = %w[admin user].freeze
+
+  ROLES.each do |role|
+    # rubocop:disable Style/RedundantSelf
+    define_method("#{role}?") do
+      self.role == role
+    end
+  end
 
   def self.find_for_authentication(tainted_conditions)
     super(tainted_conditions.merge(provider: EMAIL))
