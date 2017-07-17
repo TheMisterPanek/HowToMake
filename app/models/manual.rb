@@ -13,5 +13,6 @@
 class Manual < ApplicationRecord
   validates :name, :category_id, presence: true
   belongs_to :category
-  belongs_to :user
+  belongs_to :userd
+  has_many :pages
 end
