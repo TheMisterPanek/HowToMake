@@ -40,6 +40,7 @@ class ManualsController < ApplicationController
 
   def set_manual
     @manual = Manual.find(params[:id])
+    @pages = @manual.pages
   end
 
   def manual_params
