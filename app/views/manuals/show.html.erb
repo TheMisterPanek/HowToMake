@@ -15,5 +15,13 @@
   <%= @manual.user %>
 </p>
 
+  <% @pages.each do |page| %>
+    <div class="row">
+      <div class="col-xs-4">
+       <%= page.title %>
+      </div>
+    </div>
+  <% end %>
+
 <%= link_to t('action.edit'), edit_manual_path(@manual) %> |
 <%= link_to t('action.back'), manuals_path %>
