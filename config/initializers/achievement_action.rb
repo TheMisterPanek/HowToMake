@@ -1,0 +1,1 @@
+AchievementEvent.subscribe(:post, PostAchievement)
