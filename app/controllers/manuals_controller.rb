@@ -22,6 +22,7 @@ class ManualsController < ApplicationController
 
   def create
     @manual = current_user.manuals.create(manual_params)
+    AchievementEvent.send(:post, current_user: current_user, manual_id: @manual.id)
     @manual.save
     respond_with(@manual)
   end
@@ -44,6 +45,6 @@ class ManualsController < ApplicationController
   end
 
   def manual_params
-    params.require(:manual).permit(:name, :category_id, :user_id)
+    params.require(:manual).permit(:name, :category_id)
   end
 end

@@ -21,3 +21,5 @@
 /config/database.yml
 /db/seeds.rb
 /db/schema.rb
+/spec/*
+.idea/*
