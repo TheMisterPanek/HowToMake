@@ -11,5 +11,10 @@
 #
 
 class Block < ApplicationRecord
+  validates :page_id,:type, presence: true
   belongs_to :page
+
+  def initialize 
+    raise NotImplementedError
+  end
 end
