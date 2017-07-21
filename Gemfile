@@ -43,6 +43,8 @@ gem 'dotenv-rails'
 gem 'responders', '~> 2.4'
 gem 'cancancan', '~> 2.0'
 
+gem 'webpacker', '~> 2.0'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -73,3 +75,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+gem 'foreman'
