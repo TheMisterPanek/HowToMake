@@ -14,14 +14,7 @@
   <strong><%= Manual.human_attribute_name("author") %>:</strong>
   <%= @manual.user %>
 </p>
-
-  <% @pages.each do |page| %>
-    <div class="row">
-      <div class="col-xs-4">
-       <%= page.title %>
-      </div>
-    </div>
-  <% end %>
+ <div id="manual" data-initial-state=<%= manual_json(@manual) %> ></div>
 
 <%= link_to t('action.edit'), edit_manual_path(@manual) %> |
 <%= link_to t('action.back'), manuals_path %>

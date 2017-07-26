@@ -39,6 +39,8 @@ gem 'omniauth-twitter', '~> 1.4'
 gem 'omniauth-facebook', '~> 4.0'
 gem 'omniauth-vkontakte', '~> 1.4'
 
+gem 'acts_as_list', '~> 0.9.7'
+
 gem 'dotenv-rails'
 gem 'responders', '~> 2.4'
 gem 'cancancan', '~> 2.0'
