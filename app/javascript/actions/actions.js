@@ -48,4 +48,3 @@ export function createBlock(page_id, type) {
     })
   };
 };
-

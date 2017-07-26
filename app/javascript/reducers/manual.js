@@ -4,7 +4,6 @@ import { getSubscription } from '../cable.js'
 const manual = (state = fromJS({}), action) => {
   let pages = state.get("pages");
   let pageIndex = pages.findIndex((page) => page.get('id') == action.id);
-  
   switch (action.type) {
     case 'CREATE_PAGE':
       getSubscription({ channel: "ManualsChannel",manual_id: state.get("manual_id")}).perform('add_page', { title: action.title, manual_id: action.manual_id });
