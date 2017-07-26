@@ -15,7 +15,7 @@ class PostAchievement < Achievement
     current_user = _params[:current_user]
     user_id = current_user.id
     post_achivement = current_user.achievements.where(type: 'PostAchievement').order(:progress).last
-    PostAchievement.create(user_id: user_id, progress: post_achivement.progress + delta)
+    PostAchievement.create(user_id: user_id, progress: 100);
   end
 
   def self.delta
