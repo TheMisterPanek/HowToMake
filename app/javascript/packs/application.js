@@ -17,7 +17,6 @@ import '../styles/application.scss';
 
 document.addEventListener("DOMContentLoaded", () => {
   Rails.start();
-
   const rootElement = $("#manual");
   if (rootElement) {
     const data = rootElement.data('initialState');

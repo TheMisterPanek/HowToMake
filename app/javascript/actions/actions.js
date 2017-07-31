@@ -35,16 +35,42 @@ export const selectCurrentPage = (id) => {
   };
 };
 
-export function createBlock(page_id, type) {
-  return dispatch => {
-    $.ajax({
-      url: "/blocks",
-      type: 'POST',
-      dataType:'json',
-      data: { block: { page_id: page_id, type: type, data: { x: 5, y: 5, content: "" } } },
-      success: function (data) {
-        dispatch(addBlock(data))
-      }
-    })
+export const createTextBlock = (text) => {
+  return {
+    type: 'ADD_TEXT',
+    text
   };
 };
+export const createImageBlock = (image) => {
+  return {
+    type: 'ADD_IMAGE',
+    url: image.url,
+    height: image.height,
+    width: image.width,
+  };
+};
+
+export const createVideoBlock = (url) => {
+  return {
+    type: 'ADD_VIDEO',
+    url,
+  };
+};
+
+export const moveBlock = (id,x,y)=>{
+  return{
+    type: 'MOVE_BLOCK',
+    x: x,
+    y: y,
+    block_id: id
+  }
+}
+
+export const sortPages = (id, oldPosition, newPosition) =>{
+  return{
+    type: 'SORT_PAGE',
+    pageId: id,
+    oldPosition: oldPosition,
+    newPosition: newPosition,
+  }
+}

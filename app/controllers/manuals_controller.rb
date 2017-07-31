@@ -9,6 +9,8 @@ class ManualsController < ApplicationController
   end
 
   def show
+    5.times {puts ""}
+    puts @manual
     respond_with(@manual)
   end
 
