@@ -66,6 +66,16 @@ export const moveBlock = (id,x,y)=>{
   }
 }
 
+export const resizeBlock = (id, direction, w, h) => {
+  return{
+    type: 'RESIZE_BLOCK',
+    block_id: id,
+    direction,
+    w,
+    h,
+  }
+}
+
 export const sortPages = (id, oldPosition, newPosition) =>{
   return{
     type: 'SORT_PAGE',

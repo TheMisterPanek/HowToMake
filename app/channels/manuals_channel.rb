@@ -36,6 +36,14 @@ class ManualsChannel < ApplicationCable::Channel
     Block.find(data['block_id']).update(data: data['data'])
   end
 
+  def resize_block(data)
+    5.times {puts ""}
+    puts data
+    5.times {puts ""}
+    
+    Block.find(data['block_id']).update(data: data['data'])
+  end
+
   def sort_page data
     Page.find(data['page_id']).update(position: data['newPosition']);
   end

@@ -6,17 +6,20 @@ import PropTypes from 'prop-types';
 import { removePage } from '../actions/actions.js';
 import { selectCurrentPage } from '../actions/actions.js';
 
-const DragHandle = SortableHandle(() => <span>::::</span>);
+const DragHandle = SortableHandle(() => <span className = "glyphicon glyphicon-resize-vertica">+</span>);
 
 const Page = SortableElement(({ onKeyPress, onClick, title, position, id }) => 
-  <div className="page" onClick={onClick} onKeyPress={(e) => {
+  <div 
+    className="page" 
+    onClick={onClick} 
+    onKeyPress={(e) => {
     let key = e.keyCode || e.charCode;
     if( key == 127 ){
       onKeyPress();
     }
   }} tabIndex="0">
     <DragHandle />
-    {position}
+    {title}
   </div>
 );
 

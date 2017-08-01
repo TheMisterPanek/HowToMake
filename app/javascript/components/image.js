@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Rnd from 'react-rnd';
 import { connect } from 'react-redux';
-import {moveBlock, resizelock} from '../actions/actions.js';
+import {moveBlock, resizeBlock} from '../actions/actions.js';
 
 
 class ImageBlock extends React.Component {
@@ -20,15 +20,25 @@ class ImageBlock extends React.Component {
     this.props.onBlockResize(this.props.id, data, delta.width, delta.height);
   }
 
-
-
   render() {
     return (
-      <Rnd bounds = "parent" className="selectDisable" default = {{...this.props.data}}
+      <Rnd 
+        lockAspectRatio = {true}
+        className="image-block-container"
+        bounds = "parent" 
+        minHeight = '50'
+        minWidth = '50'
+        default = {{
+          x:this.props.data.x,
+          y:this.props.data.y,
+          width: this.props.data.width
+        }}
         onDragStop = {this.onMove}
         onResizeStop = {this.onResize}
-        >
-        <img className = "selectDisable" src = {this.props.data.url}></img>
+      >
+        <div >
+          <img className = "image-block"  src = {this.props.data.url}></img>
+        </div>
       </Rnd>
     );
   }

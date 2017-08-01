@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Block from './block.js'
 import ReactDOM from 'react-dom';
 import ImageBlock from './image.js';
-import {TextBlock} from './text.js';
-import {VideoBlock} from './video.js'
+import TextBlock from './text.js';
+import VideoBlock from './video.js'
 
 const CurrentPage = ({ title, position, blocks }) => {
   let pageBlocks = blocks.map(block =>{
@@ -12,9 +12,9 @@ const CurrentPage = ({ title, position, blocks }) => {
           case 'Image':
             return <ImageBlock id = {block.id} key = {block.id} data = {block.data}/>
           case 'Text':
-            return <TextBlock key = {block.id} {...block.data}/>
+            return <TextBlock  id = {block.id} key = {block.id} data = {block.data}/>
           case 'Video':
-            return <VideoBlock key = {block.id} {...block.data}/>
+            return <VideoBlock  id = {block.id} key = {block.id} data = {block.data}/>
           default:
             return null;
         }

@@ -15,6 +15,13 @@ const manual = (state = fromJS({}), action) => {
       return state;
     case 'ADD_PAGE':
       return state.set("pages", pages.push(fromJS(action.page)));
+    case 'UPDATE_PAGES':
+      pages = pages.map(page => {
+        page = page.set('position', ( action.newOrder.indexOf(page.get('id'))+1))
+        return page;
+      });
+      pages = pages.sortBy(page => page.get('position'));
+      return state.set("pages", pages);
     case 'REMOVE_PAGE':
       getChanel().perform('delete_page', { id: action.id });
       return state;
@@ -37,10 +44,22 @@ const manual = (state = fromJS({}), action) => {
         if(oldPosition-newPosition<0)
           {
              newPages = state.get('pages').map((page)=>{
-               return page;
-             })
+               if(page.get('position')>newPosition  && page.get('position')!=state.get('pages').length)
+                {
+                  page.set('position',page.get('position')+1);
+                }
+             });
+          }
+          else{
+            newPages = state.get('pages').map((page)=>{
+               if(page.get('position')<newPosition && page.get('positioni')!=1)
+                {
+                  page.set('position',page.get('position')-1);
+                }
+             });
           }
       }
+      state.set('pages',newPages);
       return state;
     //======== BLOCK ========
     case 'ADD_VIDEO':
@@ -56,6 +75,8 @@ const manual = (state = fromJS({}), action) => {
         url: action.url, 
         height: action.height, 
         width: action.width, 
+        x:0,
+        y:0 ,
         current_page_id: currentPage.get('id') 
       };
       getChanel().perform('add_imageblock', data_image);
@@ -73,6 +94,35 @@ const manual = (state = fromJS({}), action) => {
       blockByIndex = blockByIndex.updateIn(["data", "y"], y => action.y);
       getChanel().perform('move_block', {
         block_id: action.block_id,
+        data: blockByIndex.get("data"),
+      });
+      return state.setIn(["pages", current_page, "blocks", blockIndex], blockByIndex);
+    case 'RESIZE_BLOCK':
+      current_page = state.get('current_page'); 
+      page = pages.get(current_page);
+      blockIndex = page.get("blocks").findIndex( (block) => block.get('id') == action.block_id);
+      if (blockIndex < 0) { return state }
+
+      blockByIndex = page.getIn(["blocks", blockIndex]);
+      blockByIndex = blockByIndex.updateIn(["data", "width"], x => x+action.w);
+      blockByIndex = blockByIndex.updateIn(["data", "height"], y => y+action.h);
+      switch(action.direction){
+        case 'topLeft':
+          blockByIndex = blockByIndex.updateIn(["data", "x"], x => x - action.w);
+          blockByIndex = blockByIndex.updateIn(["data", "y"], y => y - action.h);
+          break;
+        case 'top':
+        case 'topRight':
+          blockByIndex = blockByIndex.updateIn(["data", "y"], y => y - action.h);
+          break;
+        case 'left':
+        case 'bottomLeft':
+          blockByIndex = blockByIndex.updateIn(["data", "x"], x => x - action.w);
+          break;
+        default: break;
+      }
+      getChanel().perform('resize_block', {
+        block_id: blockByIndex.get('id'),
         data: blockByIndex.get("data"),
       });
       return state.setIn(["pages", current_page, "blocks", blockIndex], blockByIndex);
