@@ -24,8 +24,19 @@ class ImageBlock extends React.Component {
     return (
       <Rnd 
         lockAspectRatio = {true}
-        className="image-block-container"
-        bounds = "parent" 
+        className= {this.props.allowEdit?"image-block-container":""}
+        bounds = "parent"
+        disableDragging = {!this.props.allowEdit} 
+        enableResizing = {{
+          bottom: this.props.allowEdit,
+          bottomLeft: this.props.allowEdit,
+          bottomRight: this.props.allowEdit,
+          left: this.props.allowEdit,
+          right: this.props.allowEdit,
+          top: this.props.allowEdit,
+          topLeft: this.props.allowEdit,
+          topRight: this.props.allowEdit,
+        }}
         minHeight = '50'
         minWidth = '50'
         default = {{
@@ -50,6 +61,12 @@ ImageBlock.propTypes = {
    onBlockResize: PropTypes.func.isRequired,
  };
 
+const mapStateToProps = (state) =>{
+  return{
+    allowEdit: state.getIn(["manual","edit_mode"]),
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onBlockResize: (id, direction, w, h) => {
@@ -61,4 +78,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(ImageBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageBlock);

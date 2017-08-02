@@ -6,19 +6,37 @@ import PropTypes from 'prop-types';
 import { removePage } from '../actions/actions.js';
 import { selectCurrentPage } from '../actions/actions.js';
 
-const DragHandle = SortableHandle(() => <span className = "glyphicon glyphicon-resize-vertica">+</span>);
+const DragHandle = SortableHandle(() =>{ 
+  return(
+  <span 
+    className = "glyphicon glyphicon-resize-vertica"
+  >
+  </span>)});
 
-const Page = SortableElement(({ onKeyPress, onClick, title, position, id }) => 
+const AllowEdit = (allowEdit,block)=>{
+  if (allowEdit){
+    return block;
+  }
+  else {
+    return null;
+  }
+}
+
+const Page = SortableElement(({ onKeyPress, onClick, title, position, id, edit_mode }) => 
   <div 
     className="page" 
     onClick={onClick} 
     onKeyPress={(e) => {
-    let key = e.keyCode || e.charCode;
-    if( key == 127 ){
-      onKeyPress();
-    }
-  }} tabIndex="0">
-    <DragHandle />
+      if(edit_mode)
+      {
+        let key = e.keyCode || e.charCode;
+        if( key == 127 ){
+          onKeyPress();
+        }
+      }}
+    } 
+    tabIndex="0">
+    {AllowEdit(edit_mode,<DragHandle/>)}
     {title}
   </div>
 );
@@ -31,11 +49,12 @@ Page.propTypes = {
   position: PropTypes.number.isRequired,
 };
 
-const SortablePages = SortableContainer(({pages, onPageClick, onKeyDeleteDown}) => {
+const SortablePages = SortableContainer(({pages, onPageClick, onKeyDeleteDown,edit_mode}) => {
   return (
     <div className="preview">
       {pages.map((page, index) => (
         <Page
+          edit_mode = {edit_mode}
           key={page.id}
           index={index}
           {...page}
@@ -46,6 +65,12 @@ const SortablePages = SortableContainer(({pages, onPageClick, onKeyDeleteDown}) 
     </div>
   );
 });
+
+const mapStateToProps = (state) =>{
+  return{
+    edit_mode: state.getIn(['manual','edit_mode']),
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -58,4 +83,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(SortablePages);
+export default connect(mapStateToProps, mapDispatchToProps)(SortablePages);

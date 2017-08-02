@@ -2,8 +2,55 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Rnd from 'react-rnd';
 import { connect } from 'react-redux';
-import {moveBlock, resizeBlock} from '../actions/actions.js';
+import {moveBlock, resizeBlock, saveText, removeBlock} from '../actions/actions.js';
 import autosize from "autosize";
+import RemoveHandler from './Buttons/RemoveHandler.js';
+
+const ShowTextArea = ({data,onMove,onResize,disabled,onRemoveBlock,onChange,id})=>{
+    const delayFromSend = 2500;
+    let lastHandle;
+    if(disabled)
+      {
+        return( 
+          <Rnd  
+            disableDragging = {true}
+            enableResizing = {{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
+            default= {data}>
+            <label className="text-area" >{data.text}</label>
+          </Rnd>);
+      }
+    return(
+      <Rnd dragHandlerClassName={".drag-handler"} bounds = "parent" default = {{...data}}
+        onDragStop = {onMove}
+        onResizeStop = {onResize}
+        enableResizing = {{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
+      >
+        <div className="drag-handler"></div>  
+        <RemoveHandler block_id = {id}/>
+        <textarea 
+          onChange = {(e)=>{
+            e.target.style.border = '3px solid red'; 
+            clearTimeout(lastHandle);
+            let target = e.target;
+            lastHandle = setTimeout(()=>{
+              target.style.border = '3px solid #73AD21';
+              onChange(id,target.value);
+            }, delayFromSend)}} 
+          disabled = {disabled} 
+          defaultValue = {data.text} 
+          className="text-area"  
+          onKeyDown={() => {autosize($('.text-area'))}} 
+          className="block" ></textarea>
+      </Rnd>
+    );
+  }
+
+ShowTextArea.PropTypes = {
+  data: PropTypes.object.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onResize: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
 
 class TextBlock extends React.Component {
   constructor(props) {
@@ -20,17 +67,20 @@ class TextBlock extends React.Component {
     this.props.onBlockResize(this.props.id, data, delta.width, delta.height);
   }
 
-
+  
 
   render() {
+    
     return ( 
-        <Rnd dragHandlerClassName={".drag-handler"} bounds = "parent" default = {{...this.props.data}}
-          onDragStop = {this.onMove}
-          onResizeStop = {this.onResize}
-          >
-          <div className="drag-handler"></div>      
-          <textarea className="text-area"  onKeyDown={() => {autosize($('.text-area'))}} className="block" >{this.props.data.text}</textarea>
-        </Rnd>
+      <ShowTextArea 
+        disabled = {!this.props.allowEdit} 
+        onChange = {this.props.onChangeTextInBlock} 
+        onMove = {this.onMove} 
+        onResize = {this.onResize} 
+        onRemoveBlock = {this.props.onRemoveBlock}
+        data = {this.props.data}
+        id = {this.props.id}
+        />
     );
   }
 }
@@ -43,6 +93,12 @@ TextBlock.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onRemoveBlock: (id) =>{
+      dispatch(removeBlock(id))
+    },
+    onChangeTextInBlock: (id,text)=>{
+      dispatch(saveText(id,text));
+    },
     onBlockResize: (id, direction, w, h) => {
       dispatch(resizeBlock(id, direction, w, h));
     },
@@ -52,4 +108,11 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(TextBlock);
+const mapStateToProps = (state)=>{
+  return{
+    allowEdit: state.getIn(["manual","edit_mode"]),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextBlock);

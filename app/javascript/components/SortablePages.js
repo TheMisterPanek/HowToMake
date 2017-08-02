@@ -15,6 +15,7 @@ class SortableComponent extends Component {
   };
   render() {
     return <SortablePages pages={this.props.pages} onSortEnd={this.onSortEnd} transitionDuration={500} useDragHandle={true}/>;
+ 
   }
 }
 
@@ -22,6 +23,11 @@ SortableComponent.propTypes = {
   pages: PropTypes.array.isRequired,
 };
 
+const mapStateToProps = (state)=>{
+  return{
+    allow_edit: state.getIn(['manual','edit_mode']),
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -37,4 +43,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(SortableComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(SortableComponent);
