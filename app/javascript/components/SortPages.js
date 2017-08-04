@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { removePage } from '../actions/actions.js';
 import { selectCurrentPage } from '../actions/actions.js';
+import {TiArrowUnsorted} from 'react-icons/lib/ti';
+import {GoX} from 'react-icons/lib/go'
 
 const DragHandle = SortableHandle(() =>{ 
+
   return(
-  <span 
-    className = "glyphicon glyphicon-resize-vertica"
-  >
-  </span>)});
+    <TiArrowUnsorted className = "arrow-unsorted"/>
+  )});
 
 const AllowEdit = (allowEdit,block)=>{
   if (allowEdit){
@@ -36,8 +37,11 @@ const Page = SortableElement(({ onKeyPress, onClick, title, position, id, edit_m
       }}
     } 
     tabIndex="0">
-    {AllowEdit(edit_mode,<DragHandle/>)}
-    {title}
+    <div className="row">
+      <div className="col-2 preview-page-move">{AllowEdit(edit_mode,<DragHandle/>)}</div>
+      <div className="col-8 preview-page-text">{title}</div>
+      <div className="col-2 preview-page-remove">{AllowEdit(edit_mode, <GoX onClick ={()=>alert('test function! Press delete!')}/>)}</div>
+    </div>
   </div>
 );
 
@@ -78,7 +82,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(selectCurrentPage(id));
     },
     onKeyDeleteDown: (id) => {
-      dispatch(removePage(id))
+      if(confirm('Seriosly?'))
+        {
+          dispatch(removePage(id));
+        }
     },
   };
 };

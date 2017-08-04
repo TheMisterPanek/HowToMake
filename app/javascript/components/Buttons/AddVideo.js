@@ -7,7 +7,7 @@ import DefaultButton from './DefaultButton.js';
 class AddVideo extends Component {
   render() {
     return (
-        <DefaultButton text = "Add Image" onClick = {this.props.onClick} />
+        <DefaultButton text = "Add video" onClick = {this.props.onClick} />
     );
   }
 }

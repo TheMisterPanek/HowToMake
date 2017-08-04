@@ -5,8 +5,31 @@ import { connect } from 'react-redux';
 import {moveBlock, resizeBlock, saveText, removeBlock} from '../actions/actions.js';
 import autosize from "autosize";
 import RemoveHandler from './Buttons/RemoveHandler.js';
+import {TiArrowMoveOutline} from 'react-icons/lib/ti'
+
+
 
 const ShowTextArea = ({data,onMove,onResize,disabled,onRemoveBlock,onChange,id})=>{
+
+  const onChangeTextInTextAreaWithDelay = (e)=>{
+    e.target.style.border = '3px solid red'; 
+    clearTimeout(lastHandle);
+    let target = e.target;
+    lastHandle = setTimeout(()=>onChangeTextInTextAreaBase(id,target), delayFromSend)
+  }
+
+
+  const onBlur = (e)=>{
+    clearTimeout(lastHandle);
+    let target = e.target;
+    onChangeTextInTextAreaBase(id,target);
+  }
+
+
+  const onChangeTextInTextAreaBase = (id,target)=>{
+        target.style.border = '3px solid #73AD21';
+        onChange(id,target.value);
+  }
     const delayFromSend = 2500;
     let lastHandle;
     if(disabled)
@@ -16,7 +39,7 @@ const ShowTextArea = ({data,onMove,onResize,disabled,onRemoveBlock,onChange,id})
             disableDragging = {true}
             enableResizing = {{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
             default= {data}>
-            <label className="text-area" >{data.text}</label>
+            <div className="text-area text-area-label">{data.text}</div>
           </Rnd>);
       }
     return(
@@ -25,17 +48,13 @@ const ShowTextArea = ({data,onMove,onResize,disabled,onRemoveBlock,onChange,id})
         onResizeStop = {onResize}
         enableResizing = {{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
       >
-        <div className="drag-handler"></div>  
+        <div className="drag-handler">
+          <TiArrowMoveOutline />
+        </div>  
         <RemoveHandler block_id = {id}/>
         <textarea 
-          onChange = {(e)=>{
-            e.target.style.border = '3px solid red'; 
-            clearTimeout(lastHandle);
-            let target = e.target;
-            lastHandle = setTimeout(()=>{
-              target.style.border = '3px solid #73AD21';
-              onChange(id,target.value);
-            }, delayFromSend)}} 
+          onChange = {onChangeTextInTextAreaWithDelay}
+          onBlur = {onBlur}
           disabled = {disabled} 
           defaultValue = {data.text} 
           className="text-area"  

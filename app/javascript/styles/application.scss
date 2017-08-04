@@ -1,4 +1,4 @@
-@import '~bootstrap/scss/bootstrap';
+  @import '~bootstrap/scss/bootstrap';
 @import 'sign_in';
 @import 'forms';
 
@@ -46,7 +46,8 @@
   background-color: white;
   vertical-align: middle;
   line-height: 50px;
-  padding-left: 25px;
+  padding-left: 10px;
+  z-index: 9999;
 }
 
 .block{
@@ -96,6 +97,8 @@
 
 }
 
+
+
 .image-block-container{
   border-style: dotted;  
   z-index:999;
@@ -106,5 +109,48 @@
   top: -25px;
   height: 25px;
   width: 25px;
-  background-color: black;
+}
+.remove-handler{
+  position: absolute;
+  left: 100%;
+  top: -25px;
+  height: 25px;
+  width: 25px;
+}
+
+.edit-mode-button{
+  
+}
+
+.arrow-unsorted{
+
+}
+
+
+.preview-page-move{
+
+}
+
+.preview-page-text{
+
+}
+
+.preview-page-remove{
+  
+}
+
+.text-area{
+  height:auto;
+  max-width: 215px;
+  word-wrap: break-word;
+}
+
+.text-area-label{
+  padding-left:15px;
+}
+
+.user-image{
+  min-width: 250px;
+  min-height: 250px;
+  border-style: dotted;
 }

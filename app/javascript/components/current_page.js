@@ -7,10 +7,14 @@ import TextBlock from './text.js';
 import VideoBlock from './video.js'
 import DefaultButton from './Buttons/DefaultButton.js';
 import {connect} from 'react-redux';
-import EditMode from './Buttons/EditMode.js';
+import {changeTitle} from '../actions/actions.js';
+import InlineEdit from 'react-edit-inline';
 
-const CurrentPage = ({ title, position, blocks }) => {
-  let pageBlocks = null||blocks.map(block =>{
+
+
+const CurrentPage = ({ title, position, blocks,onChangeTitle,allowEdit }) => {
+  let pageId = blocks[0].page_id;
+  let pageBlocks = blocks.map(block =>{
         switch(block.type){
           case 'Image':
             return <ImageBlock id = {block.id} key = {block.id} data = {block.data}/>
@@ -24,8 +28,11 @@ const CurrentPage = ({ title, position, blocks }) => {
       });
   return (
       <div className = "currentPage">
-        <EditMode/>
-        <div className = "header" >{position} {title}</div>
+        <div className = "header" >
+          {position} {allowEdit?
+              <InlineEdit text = {title} paramName = "newTitle" change = {(e)=>onChangeTitle(pageId,e)}/>
+              :<span>{title}</span>}
+        </div>
         {pageBlocks}
     </div>);
 }
@@ -38,5 +45,19 @@ CurrentPage.propTypes = {
   }).isRequired).isRequired,
   
 };
+const mapStateToProps = (state) =>{
+  return{
+    allowEdit: state.getIn(["manual","edit_mode"]),
+    //id: this.state.getIn(["manual","current_page"]),
+  }
+}
 
-export default CurrentPage;
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    onChangeTitle:(id,e)=>{
+      dispatch(changeTitle(id,e.newTitle));
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CurrentPage);

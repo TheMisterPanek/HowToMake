@@ -1,11 +1,16 @@
 class ManualsChannel < ApplicationCable::Channel
   MANUAL_CHANNEL = 'Manuals_%s_channel'.freeze
 
+  def self.channel_for_manual(manual_id)
+    format(MANUAL_CHANNEL, manual_id)
+  end
+
   def subscribed
     stream_from self.class.channel_for_manual(params[:manual_id])
   end
 
   def unsubscribed
+    send_edit_mode false
   end
 
   def add_page(data)
@@ -22,8 +27,7 @@ class ManualsChannel < ApplicationCable::Channel
   end
 
   def add_textblock(data)
-    serializeData = {text: data['text'], width: 320, height: 200, x: 0, y: 0}
-    puts serializeData
+    serializeData = {text: data['text'], width: 215, x: 0, y: 0}
     blocks(data['current_page_id']).create(type: "Text", data: serializeData);
   end
 
@@ -36,11 +40,12 @@ class ManualsChannel < ApplicationCable::Channel
     Block.find(data['block_id']).update(data: data['data'])
   end
 
+  def toggle_edit_mode data
+    mode = current_user.manuals.find(params[:manual_id])|| false
+    send_edit_mode mode && !data["edit_mode"]
+  end
+
   def resize_block(data)
-    5.times {puts ""}
-    puts data
-    5.times {puts ""}
-    
     Block.find(data['block_id']).update(data: data['data'])
   end
 
@@ -48,7 +53,20 @@ class ManualsChannel < ApplicationCable::Channel
     Page.find(data['page_id']).update(position: data['newPosition']);
   end
 
+  def send_edit_mode edit_mode
+    action = {type: "TOGGLED_EDIT_MODE", edit_mode: edit_mode } 
+    ActionCable.server.broadcast ManualsChannel.channel_for_manual(params[:manual_id]), action
+  end
 
+
+  def save_text block_data
+    Block.find(block_data["block_id"]).update(data: block_data['data']);
+  end
+
+
+  def change_title data
+    Page.find(data['page_id']).update(title: data['new_title']);
+  end
 
 private
 
@@ -61,7 +79,5 @@ private
     current_user.manuals.find(params[:manual_id]) 
   end
 
-  def self.channel_for_manual(manual_id)
-    format(MANUAL_CHANNEL, manual_id)
-  end
+
 end

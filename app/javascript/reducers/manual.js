@@ -5,10 +5,10 @@ const manual = (state = fromJS({}), action) => {
   const getChanel = ()=>{
     return getSubscription({ channel: "ManualsChannel",manual_id: state.get("manual_id")});
   }
-  console.log(state);
   let pages = state.get("pages");
   let pageIndex = pages.findIndex((page) => page.get('id') == action.id);
   let currentPage = pages.find((page)=>page.get('position') == state.get('current_page')+1);
+  let page,blockIndex,blockByIndex,blocks;
   switch (action.type) {
     case 'CREATE_PAGE':
       getChanel().perform('add_page', { title: action.title, manual_id: action.manual_id });
@@ -21,7 +21,7 @@ const manual = (state = fromJS({}), action) => {
         return page;
       });
       pages = pages.sortBy(page => page.get('position'));
-      return state.set("pages", pages);
+      return state.set("pages", pages);    
     case 'REMOVE_PAGE':
       getChanel().perform('delete_page', { id: action.id });
       return state;
@@ -33,6 +33,15 @@ const manual = (state = fromJS({}), action) => {
          page = page.set("position", page.get("position") -1);
         }
         return page;
+      }));
+    case 'CHANGE_TITLE':
+      getChanel().perform('change_title',{page_id: action.pageId, new_title: action.newTitle});
+      return state.set("pages", pages.map((page)=>{
+        if(page.get('id')==action.pageId)
+          {
+            return page.set('title',action.newTitle);
+          }
+          return page;
       }));
     case 'SELECT_CURRENT_PAGE':
       return state.set("current_page", pageIndex);
@@ -52,7 +61,7 @@ const manual = (state = fromJS({}), action) => {
           }
           else{
             newPages = state.get('pages').map((page)=>{
-               if(page.get('position')<newPosition && page.get('positioni')!=1)
+               if(page.get('position')<newPosition && page.get('position')!=1)
                 {
                   page.set('position',page.get('position')-1);
                 }
@@ -61,7 +70,13 @@ const manual = (state = fromJS({}), action) => {
       }
       state.set('pages',newPages);
       return state;
-    //======== BLOCK ========
+//=========== EDIT MODE ============
+    case 'TOGGLE_EDIT_MODE':
+       getChanel().perform('toggle_edit_mode',{ edit_mode: state.get('edit_mode')});
+      return state;
+    case 'TOGGLED_EDIT_MODE':
+      return state.set('edit_mode',action.edit_mode);
+//=========== BLOCK ==============
     case 'ADD_VIDEO':
       let data_video = {current_page_id: currentPage.get('id'), url: action.url};
       getChanel().perform('add_videoblock',data_video);
@@ -70,6 +85,23 @@ const manual = (state = fromJS({}), action) => {
       let data_text = {current_page_id: currentPage.get('id'), text: action.text};
       getChanel().perform('add_textblock',data_text);
       return state;
+    case 'SAVE_TEXT':
+      page = pages.get(state.get('current_page'));
+      blocks = page.get('blocks');
+      blockIndex = page.get("blocks").findIndex( (block) => block.get('id') == action.block_id);
+      if (blockIndex < 0) { return state }
+
+      blockByIndex = page.getIn(["blocks", blockIndex]);
+      blockByIndex = blockByIndex.updateIn(["data", "text"], text => action.text);
+      getChanel().perform('save_text',{block_id: action.block_id, data: blockByIndex.get('data')})
+      blocks = blocks.map(block => {
+        if(block.get('id')==blockByIndex.get('id'))
+          {
+            return blockByIndex;
+          }
+          return block;
+      });
+      return state.setIn(['pages',state.get('current_page'),'blocks'],blocks);
     case 'ADD_IMAGE':
       let data_image = { 
         url: action.url, 
@@ -81,9 +113,21 @@ const manual = (state = fromJS({}), action) => {
       };
       getChanel().perform('add_imageblock', data_image);
       return state;
-      //==== Moves Blocks ======
+    case 'SHOW_BLOCK':
+      page = pages.get(state.get('current_page'));
+      blocks = page.get("blocks");
+      blocks = blocks.push(fromJS(action.block));
+      page = page.set("blocks", blocks);
+      pages = pages.set(state.get('current_page'), page);
+      console.log(state.get('pages'));
+      return state.set("pages", pages);
+    case 'REMOVE_BLOCK':
+      blocks = state.getIn(["pages",state.get('current_page'),"blocks"]);
+      blocks = blocks.map((block)=>{return block.get('id')!=action.block_id})
+      return state.setIn(["pages",state.get('current_page'),"blocks"],blocks);
+//========= RND block ============
     case 'MOVE_BLOCK':
-      let page,blockIndex,blockByIndex;
+      
       let current_page = state.get('current_page'); 
       page = pages.get(current_page);
       blockIndex = page.get("blocks").findIndex( (block) => block.get('id') == action.block_id);

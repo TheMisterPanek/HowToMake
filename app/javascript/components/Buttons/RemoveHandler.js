@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {removeBlock} from '../../actions/actions.js';
 import {connect} from 'react-redux';
+import {GoX} from 'react-icons/lib/go'
 export class RemoveHandler extends Component {
   render() {
     return (
@@ -11,6 +12,7 @@ export class RemoveHandler extends Component {
             {this.props.onRemoveBlock(this.props.block_id)}
           }
         }>
+        <GoX/>
       </div> 
     );
   }

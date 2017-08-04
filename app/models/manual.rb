@@ -14,5 +14,5 @@ class Manual < ApplicationRecord
   validates :name, :category_id, presence: true
   belongs_to :category
   belongs_to :user
-  has_many :pages, -> {order(position: :asc)}
+  has_many :pages, -> {order(position: :asc)}, dependent: :destroy
 end

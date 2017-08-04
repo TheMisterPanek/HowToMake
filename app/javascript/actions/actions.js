@@ -20,6 +20,11 @@ export function removePage(id) {
   }
 };
 
+export const toggleEditMode = () =>{
+  return{
+    type: "TOGGLE_EDIT_MODE",
+  }
+}
 
 export const deletePage = (id) => {
   return {
@@ -66,6 +71,14 @@ export const moveBlock = (id,x,y)=>{
   }
 }
 
+export const saveText = (block_id,text)=>{
+  return{
+    type: 'SAVE_TEXT',
+    block_id,
+    text
+  }
+}
+
 export const resizeBlock = (id, direction, w, h) => {
   return{
     type: 'RESIZE_BLOCK',
@@ -73,6 +86,21 @@ export const resizeBlock = (id, direction, w, h) => {
     direction,
     w,
     h,
+  }
+}
+
+export const changeTitle = (pageId,newTitle) =>{
+  return{
+    type: 'CHANGE_TITLE',
+    pageId,
+    newTitle,
+  }
+}
+
+export const removeBlock = (id) =>{
+  return{
+    type: 'REMOVE_BLOCK',
+    block_id: id,
   }
 }
 

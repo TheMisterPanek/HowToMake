@@ -13,7 +13,7 @@ import AddVideo from './Buttons/AddVideo.js';
 const PageButtons = ({ manual_id,onAddPage,onAddImage, onAddVideo,onAddText, onToggleEditMode }) => {
   return (
     <div className="btn-group" role="group" aria-label="Basic example">
-      <AddPage  onClick = {onAddPage} /> 
+      <AddPage/>
       <AddImage onClick = {onAddImage}/>
       <AddText  onClick = {onAddText} />
       <AddVideo onClick = {onAddVideo}/>
@@ -25,7 +25,6 @@ PageButtons.propTypes = {
   onAddVideo: PropTypes.func.isRequired,
   onAddText: PropTypes.func.isRequired,
   onAddImage: PropTypes.func.isRequired,
-  onAddPage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -37,13 +36,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) =>{
   return{
-    
-    onAddPage: ({manual_id}) => {
-        const title = prompt("Please enter title", "");
-        if (title != null) {
-            dispatch(createPage(manual_id, title));
-      }
-    },
     onAddImage: ()=>{
       cloudinary.openUploadWidget({ cloud_name: 'dz2gzsnxo', upload_preset: 'zs2nzpf4'}, 
         (error, result) => { 

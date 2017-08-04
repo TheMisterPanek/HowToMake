@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Buttons from './buttons.js'
-
+import EditMode from './Buttons/EditMode.js';
 const Toolbar = ({ dispatch, allowEdit }) => {
-  if(allowEdit){
+  let buttons = allowEdit?<Buttons />:"";
   return (
-    <Buttons />
-  )}
-  else{
-    return null;
-  }
+  <div>
+    <EditMode/>
+    {buttons}
+  </div>
+  )
 };
 
 const mapStateToProps = (state)=>{

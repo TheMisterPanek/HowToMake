@@ -1,5 +1,23 @@
 <h3><%= Manual.model_name.human(count: 2) %></h3>
 
+<div class="row">
+  
+<% @manuals.each do |manual| %>
+  <div class="col-xs-4">
+    <div class="card">
+    <div class="card-header">
+      <%= manual.name %>
+    </div>
+    <div class="card-block">
+      <blockquote class="card-blockquote">
+        <%= manual.user %>
+      </blockquote>
+    </div>
+  </div>
+  </div>
+<% end %>
+</div>
+
 <table class="table table-striped table-bordered table-sm">
   <thead>
     <tr class="row">

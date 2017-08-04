@@ -2,17 +2,24 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import DefaultButton from './DefaultButton.js';
 import {toggleEditMode} from '../../actions/actions.js';
+import {GoBook,GoPaintcan} from 'react-icons/lib/go';
 
 class EditMode extends Component {
   render() {
-    return (
-      <DefaultButton 
-        onMouseOver = {(e)=>e.target.style.zIndex = '9999'}
-        onMouseLeave = {(e)=>e.target.style.zIndex = '0'} 
-        className = "edit-mode-button" 
-        text = {this.props.allowEdit ? "go to read mode": "go to editing mode"} 
-        onClick = {this.props.onToggleEditMode}/>
-    );
+    if(this.props.myPost)
+      {
+        return (
+          <DefaultButton 
+            onMouseOver = {(e)=>e.target.style.zIndex = '9999'}
+            onMouseLeave = {(e)=>e.target.style.zIndex = '0'} 
+            className = "edit-mode-button" 
+            text = {this.props.allowEdit ? 
+              <span><GoBook/> go to read mode</span> 
+              :<span><GoPaintcan/> go to  edit mode</span>} 
+            onClick = {this.props.onToggleEditMode}/>
+        );
+      }
+    return null;
   }
 }
 
@@ -23,6 +30,7 @@ EditMode.PropTypes = {
 const mapStateToProps = (state)=>{
   return{
     allowEdit: state.getIn(["manual","edit_mode"]),
+    myPost: state.getIn(["manual","myPost"]),
   }
 }
 

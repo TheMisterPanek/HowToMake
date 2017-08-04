@@ -1,5 +1,5 @@
 class ManualsController < ApplicationController
-  before_action :set_manual, only: %i[show edit update destroy]
+  before_action :set_manual, only: %i[edit update destroy]
 
   respond_to :html
 
@@ -9,12 +9,13 @@ class ManualsController < ApplicationController
   end
 
   def show
-    5.times {puts ""}
-    puts @manual
+    @manual = Manual.includes(:user,:category,pages: :blocks).where(id: params[:id]).first
+    @my_post = @manual.user_id == current_user.id
     respond_with(@manual)
   end
 
   def new
+    @categories = Category.all
     @manual = Manual.new
     respond_with(@manual)
   end
@@ -42,7 +43,8 @@ class ManualsController < ApplicationController
   private
 
   def set_manual
-    @manual = Manual.find(params[:id])
+    @edit_mode = true
+    @manual = Manual.includes(:pages).find(params[:id])
     @pages = @manual.pages
   end
 
