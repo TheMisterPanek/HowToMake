@@ -10,7 +10,9 @@ class ManualsController < ApplicationController
 
   def show
     @manual = Manual.includes(:user,:category,pages: :blocks).where(id: params[:id]).first
-    @my_post = @manual.user_id == current_user.id
+    user = current_user
+    @my_post = @manual.user_id == (user||User.new).id
+    puts @manual.user_id,current_user.instance_variable_get(:@id)
     respond_with(@manual)
   end
 
@@ -49,6 +51,6 @@ class ManualsController < ApplicationController
   end
 
   def manual_params
-    params.require(:manual).permit(:name, :category_id)
+    params.require(:manual).permit(:name, :category_id,:description, :tag_list)
   end
 end

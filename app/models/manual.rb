@@ -5,9 +5,10 @@
 #  id          :integer          not null, primary key
 #  name        :string
 #  category_id :string
-#  user_id     :string
+#  user_id     :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  description :text
 #
 
 class Manual < ApplicationRecord

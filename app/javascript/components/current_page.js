@@ -12,8 +12,7 @@ import InlineEdit from 'react-edit-inline';
 
 
 
-const CurrentPage = ({ title, position, blocks,onChangeTitle,allowEdit }) => {
-  let pageId = blocks[0].page_id;
+const CurrentPage = ({ title, position, blocks,onChangeTitle,allowEdit,currentPage }) => {
   let pageBlocks = blocks.map(block =>{
         switch(block.type){
           case 'Image':
@@ -30,7 +29,7 @@ const CurrentPage = ({ title, position, blocks,onChangeTitle,allowEdit }) => {
       <div className = "currentPage">
         <div className = "header" >
           {position} {allowEdit?
-              <InlineEdit text = {title} paramName = "newTitle" change = {(e)=>onChangeTitle(pageId,e)}/>
+              <InlineEdit text = {title} paramName = "newTitle" change = {(e)=>onChangeTitle(currentPage,e)}/>
               :<span>{title}</span>}
         </div>
         {pageBlocks}
@@ -43,12 +42,13 @@ CurrentPage.propTypes = {
   blocks: PropTypes.arrayOf(PropTypes.shape({
     data: PropTypes.object.isRequired,   
   }).isRequired).isRequired,
+  currentPage: PropTypes.number.isRequired,
   
 };
 const mapStateToProps = (state) =>{
   return{
     allowEdit: state.getIn(["manual","edit_mode"]),
-    //id: this.state.getIn(["manual","current_page"]),
+    currentPage: state.getIn(["manual","currentPage"]),
   }
 }
 

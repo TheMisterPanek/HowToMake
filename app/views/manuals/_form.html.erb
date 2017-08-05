@@ -12,15 +12,28 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name, Manual.human_attribute_name("name") %>
-    <%= form.text_field :name, id: :manual_name %>
-  </div>
+  <div class="col-5">
+     <div class="form-group row">
+      <%= form.label :name, Manual.human_attribute_name("name"), class: " col-form-label" %>
+      <%= form.text_field :name, id: :manual_name, class: "form-control" %>
+    </div>
 
- <div class="field">
-    <%= form.collection_select(:category_id, @categories, :id, :name, class: "form-control" ) %>
-    
- </div>
+    <div class="form-group row">
+      <%= form.label :description, Manual.human_attribute_name("description") , class: " col-form-label"%>
+      <%= form.text_area :description, id: :manual_description , class: "form-control"%>
+    </div>
+
+
+   <div class="form-group row">
+      <%= form.label :description, Manual.human_attribute_name("category") , class: " col-form-label"%>
+      <%= form.collection_select(:category_id, @categories, :id, :name, {},{class: "form-control selectpicker"} ) %>
+   </div>
+  </div>
+  
+  
+
   <%= form.submit t('action.save'), class: "btn btn-primary" %>
   <%= link_to t('action.back'), users_path, class: "btn btn-secondary" %>
+
+
 <% end %>

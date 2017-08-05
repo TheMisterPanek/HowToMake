@@ -34,6 +34,11 @@ en:
   view:
     search: "Search"
     manuals: "Manuals"
+    manual: 
+      empty_description: "Description is empty"
+      count_manual: "Number of manuals"
+      new: "new"
+      countPages: "count pages"
     users: "Users"
     categories: "Categories"
     devise:

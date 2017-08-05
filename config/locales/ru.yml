@@ -34,6 +34,11 @@ ru:
   view:
     search: "Поиск"
     manuals: "Инструкции"
+    manual:
+      empty_description: "Описание отсутсвует"
+      count_manual: "Количество инструкций"
+      new: "Новая"
+      countPages: "Количество шагов"
     users: "Пользователи"
     categories: "Категории"
     devise:

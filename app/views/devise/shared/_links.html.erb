@@ -2,24 +2,24 @@
   <%= link_to t('view.devise.log_in'), new_session_path(resource_name) %><br />
 <% end -%>
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to t('action.sign_up'), new_registration_path(resource_name) %><br />
-<% end -%>
 
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to t('view.devise.forgot_your_password'), new_password_path(resource_name) %><br />
-<% end -%>
+<div id="sign-in" class=" row">
+  <div class="col-4">
+    <a href = <%= omniauth_authorize_path(resource_name,"vkontakte") %>>
+     <img class="sigin-icon" src="https://image.flaticon.com/icons/png/512/25/25684.png" alt="">
+    </a>
+  </div>
+  <div class="col-4">
+    <a href = <%= omniauth_authorize_path(resource_name,"facebook") %>>
+     <img class="sigin-icon" src="https://image.freepik.com/free-icon/facebook-symbol_318-37686.jpg" alt="">
+    </a>
+  </div>
+  <div class="col-4">
+    <a href = <%= omniauth_authorize_path(resource_name,"twitter") %>>
+     <img class="sigin-icon" src="https://image.freepik.com/free-icon/twitter-bird-in-a-rounded-square_318-41054.jpg" alt="">
+    </a>
+  </div>
+</div>
 
-<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to t('view.devise.didnt_receive_confirmation'), new_confirmation_path(resource_name) %><br />
-<% end -%>
 
-<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
-<% end -%>
 
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "#{t('view.devise.sign_in_with')} #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
-  <% end -%>
-<% end -%>

@@ -41,6 +41,8 @@ gem 'omniauth-vkontakte', '~> 1.4'
 
 gem 'acts_as_list', '~> 0.9.7'
 
+gem 'acts-as-taggable-on', '~> 4.0'
+
 gem 'cloudinary', '~> 1.8', '>= 1.8.1'
 
 gem 'dotenv-rails'

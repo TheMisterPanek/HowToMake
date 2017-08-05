@@ -5,6 +5,9 @@ import Rnd from 'react-rnd';
 import { connect } from 'react-redux';
 import {moveBlock, resizeBlock} from '../actions/actions.js';
 
+import RemoveHandler from './Buttons/RemoveHandler.js';
+import {TiArrowMoveOutline} from 'react-icons/lib/ti'
+  
 
 class VideoBlock extends React.Component {
   constructor(props) {
@@ -39,7 +42,10 @@ class VideoBlock extends React.Component {
         dragHandlerClassName={".drag-handler"}
       >
         <div >
-           <div className="drag-handler"></div>   
+          <div className="drag-handler">
+            <TiArrowMoveOutline />
+          </div>  
+          <RemoveHandler block_id = {id}/> 
           <iframe src={this.props.data.url}></iframe>
         </div>
       </Rnd>

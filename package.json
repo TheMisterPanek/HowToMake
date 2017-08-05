@@ -27,6 +27,7 @@
     "immutable": "^3.8.1",
     "js-video-url-parser": "^0.2.3",
     "js-yaml": "^3.9.0",
+    "magicsuggest": "^2.1.4",
     "node-sass": "^4.5.3",
     "path-complete-extname": "^0.1.0",
     "postcss-loader": "^2.0.6",
