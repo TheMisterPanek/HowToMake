@@ -8,8 +8,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
+
 import manual from '../reducers/manual.js';
-import connection from '../reducers/connection.js'
+import connection from '../reducers/connection.js';
+
 import App from '../components/app.js';
 import Footer from '../components/footer.js';
 
@@ -57,11 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </Provider>,
       rootElement[0]
     );
-    ReactDOM.render(
-      <Provider store = {store}>
-        <Footer/>
-      </Provider> ,
-      $("#footer")[0])
   }
 
   const footer = $("#footer");

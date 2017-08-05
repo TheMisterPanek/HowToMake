@@ -21,6 +21,7 @@ en:
       new: "Create user"
     manual:
       new: "Create manual"
+      clear: "Show all"
     category:
       new: "Create category"
     devise:
@@ -33,12 +34,8 @@ en:
       log_out: "Log out"
   view:
     search: "Search"
+    empty_find_result: "manuals not found"
     manuals: "Manuals"
-    manual: 
-      empty_description: "Description is empty"
-      count_manual: "Number of manuals"
-      new: "new"
-      countPages: "count pages"
     users: "Users"
     categories: "Categories"
     devise:
@@ -54,6 +51,11 @@ en:
       details: "User details"
     manual:
       details: "Manual details"
+      empty_description: "Description is empty"
+      count_manual: "Number of manuals"
+      new: "new"
+      my: "Editable"
+      countPages: "count pages"
     category:
       details: "Category details"
   

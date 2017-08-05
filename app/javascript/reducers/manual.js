@@ -35,9 +35,9 @@ const manual = (state = fromJS({}), action) => {
         return page;
       }));
     case 'CHANGE_TITLE':
-      getChanel().perform('change_title',{page_id: action.pageId, new_title: action.newTitle});
+      getChanel().perform('change_title',{page_id: currentPage.get('id'), new_title: action.newTitle});
       return state.set("pages", pages.map((page)=>{
-        if(page.get('id')==action.pageId)
+        if(page.get('id')==currentPage.get('id'))
           {
             return page.set('title',action.newTitle);
           }
@@ -170,11 +170,15 @@ const manual = (state = fromJS({}), action) => {
         data: blockByIndex.get("data"),
       });
       return state.setIn(["pages", current_page, "blocks", blockIndex], blockByIndex);
-      // let newData = action.block.data;
-      // newData['x'] = action.x;
-      // newData['y'] = action.y;
-      // getChanel().perform('move_block',{block_id: action.block.id, data:{ ...newData}})
-      // return state;
+    //==================== Comments ==============================
+    case 'ADD_COMMENT':
+      console.log(action.comment);
+      return state;
+    case 'SEND_MESSAGE':
+      getChanel().perform('create_comment', {text: action.text})
+      return state;
+
+
     default:
       return state;
   }

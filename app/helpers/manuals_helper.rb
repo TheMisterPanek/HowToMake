@@ -9,4 +9,15 @@ module ManualsHelper
       content_tag( :span, t('view.manual.new'), :class=>%w[badge badge-default])
     end
   end
+  def my_manual? manual
+    if(manual.user_id == (current_user||User.new).id) 
+      content_tag( :span, t('view.manual.my'), :class=>%w[badge badge-success])
+    end
+  end
+
+  def empty_manuals? manuals
+    if(manuals.empty?)
+      content_tag :h3, t("view.empty_find_result")
+    end
+  end
 end

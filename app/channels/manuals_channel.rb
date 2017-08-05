@@ -63,9 +63,12 @@ class ManualsChannel < ApplicationCable::Channel
     Block.find(block_data["block_id"]).update(data: block_data['data']);
   end
 
-
   def change_title data
     Page.find(data['page_id']).update(title: data['new_title']);
+  end
+
+  def create_comment data
+    Comment.create(user_id: current_user.id, manual_id: params[:manual_id],text: data['text']);
   end
 
 private

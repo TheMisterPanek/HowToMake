@@ -38,6 +38,8 @@ gem 'omniauth', '~> 1.6', '>= 1.6.1'
 gem 'omniauth-twitter', '~> 1.4'
 gem 'omniauth-facebook', '~> 4.0'
 gem 'omniauth-vkontakte', '~> 1.4'
+gem 'search_cop', '~> 1.0', '>= 1.0.9'
+
 
 gem 'acts_as_list', '~> 0.9.7'
 

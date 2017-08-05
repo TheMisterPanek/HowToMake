@@ -4,15 +4,13 @@ class ManualsController < ApplicationController
   respond_to :html
 
   def index
-    @manuals = Manual.all
+    @manuals = params[:search_text]?Manual.search(params[:search_text]):Manual.all
     respond_with(@manuals)
   end
 
   def show
-    @manual = Manual.includes(:user,:category,pages: :blocks).where(id: params[:id]).first
-    user = current_user
-    @my_post = @manual.user_id == (user||User.new).id
-    puts @manual.user_id,current_user.instance_variable_get(:@id)
+    @manual = Manual.includes(:user,:category,:comments,pages: :blocks).where(id: params[:id]).first
+    @my_post = (@manual.user_id == (current_user||User.new).id)
     respond_with(@manual)
   end
 
@@ -45,12 +43,11 @@ class ManualsController < ApplicationController
   private
 
   def set_manual
-    @edit_mode = true
     @manual = Manual.includes(:pages).find(params[:id])
     @pages = @manual.pages
   end
 
   def manual_params
-    params.require(:manual).permit(:name, :category_id,:description, :tag_list)
+    params.require(:manual).permit(:name, :category_id, :description, :tag_list)
   end
 end

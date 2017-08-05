@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { createPage } from '../../actions/actions.js';
 import React, { Component } from 'react';
 import DefaultButton from './DefaultButton.js';
+import {MdMovie} from "react-icons/lib/md";
 
 class AddVideo extends Component {
   render() {
     return (
-        <DefaultButton text = "Add video" onClick = {this.props.onClick} />
+        <DefaultButton text = {<span><MdMovie/> Add Video </span>} onClick = {this.props.onClick} />
     );
   }
 }

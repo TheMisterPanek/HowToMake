@@ -97,7 +97,10 @@
   z-index:998;
 }
 
-
+.icon{
+  position: absolute;
+  margin-right: 5px;
+}
 
 .image-block-container{
   border-style: dotted;  
@@ -119,26 +122,7 @@
   width: 25px;
 }
 
-.edit-mode-button{
-  
-}
 
-.arrow-unsorted{
-
-}
-
-
-.preview-page-move{
-  cursor: move;
-}
-
-.preview-page-text{
-
-}
-
-.preview-page-remove{
-  
-}
 
 .text-area{
   height:auto;
@@ -166,8 +150,6 @@ a.block-href{
 }
 
 .post-preview{
-  margin: 5px;
-  padding: 5px;
   cursor: pointer;
 }
 
@@ -197,4 +179,12 @@ a.block-href{
   position: fixed;
   width: 100%;
   z-index: 1000;
+}
+
+.text-in-middle{
+  text-align: center;
+}
+
+.btn-to-right{
+  float: right;
 }

@@ -40,7 +40,7 @@ const Page = SortableElement(({ onKeyPress, onClick, title, position, id, edit_m
     <div className="row">
       <div className="col-2 preview-page-move">{AllowEdit(edit_mode,<DragHandle/>)}</div>
       <div className="col-8 preview-page-text">{title}</div>
-      <div className="col-2 preview-page-remove">{AllowEdit(edit_mode, <GoX onClick ={()=>alert('test function! Press delete!')}/>)}</div>
+      <div className="col-2 preview-page-remove">{AllowEdit(edit_mode, <GoX onClick ={()=>onKeyPress()}/>)}</div>
     </div>
   </div>
 );
