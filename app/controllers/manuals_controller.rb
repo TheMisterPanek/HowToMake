@@ -4,7 +4,8 @@ class ManualsController < ApplicationController
   respond_to :html
 
   def index
-    @manuals = params[:search_text]?Manual.search(params[:search_text]):Manual.all
+    @manuals = params[:search_text]?(Manual.search(params[:search_text])) : Manual.all
+    @manuals = @manuals.paginate(page: params[:page]||1)
     respond_with(@manuals)
   end
 
