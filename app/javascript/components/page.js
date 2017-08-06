@@ -9,9 +9,9 @@ const Page = ({ onKeyPress, onClick, title, position, id }) => {
     }
   }
   return (
-  <div className="page" onClick={onClick} onKeyPress={handleKeyPress} tabIndex="0">
-    <p><b>{position}</b> {title||'Пусто'}</p>
-  </div>
+      <div className="page" onClick={onClick} onKeyPress={onKeyPress} tabIndex="0">
+        <p><b>{position}</b> {title||'Пусто'}</p>
+      </div>
   )
 };
 

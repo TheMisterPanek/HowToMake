@@ -5,8 +5,8 @@
   <%= link_to 'How To Make', root_path, class: 'navbar-brand' %>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="<%= t('view.search') %>">
+      <form class="form-inline my-2 my-lg-0" method="<%= manuals_url %>">
+        <input class="form-control mr-sm-2" type="text" name="search_text" placeholder="<%= t('view.search') %>">
       </form>
       <li class="nav-item">
         <%= link_to t('view.manuals'), manuals_path, class: 'nav-link' %>

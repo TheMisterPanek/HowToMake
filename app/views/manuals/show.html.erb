@@ -1,20 +1,18 @@
-<h3><%= t('view.manual.details') %>:</h3>
+<div class="row">
+  <div class="col-6"  ></div>
+  <div class="col-xs-6  main-title">
+    <h1><%= @manual.name %></h1>
+  </div>
+</div>
 
-<p>
-  <strong><%= Manual.human_attribute_name("name") %>:</strong>
-  <%= @manual.name %>
-</p>
 
-<p>
-  <strong><%= Manual.human_attribute_name("category") %>:</strong>
-  <%= @manual.category.name %>
-</p>
+
 
 <p>
   <strong><%= Manual.human_attribute_name("author") %>:</strong>
   <%= @manual.user %>
 </p>
- <div id="manual" data-initial-state=<%= manual_json(@manual) %> ></div>
+ <%= content_tag :div, nil, id: "manual", data: { "initial-state" => manual_json(@manual)} %>
 
 <%= link_to t('action.edit'), edit_manual_path(@manual) %> |
 <%= link_to t('action.back'), manuals_path %>

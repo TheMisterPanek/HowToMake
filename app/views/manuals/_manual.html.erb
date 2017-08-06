@@ -1,0 +1,26 @@
+<div class="col-6 post-preview" onClick="window.location.href = '<%= manual_path(manual.id) %>';">
+      <div class="card">
+      <div class="card-header">
+        <%= manual.name %>
+        <%= new_manual?(manual) %>
+        <%= my_manual?(manual) %>
+      </div>
+      <div class="card-block">
+        <blockquote class="card-blockquote">
+          <%= manual.description||t('view.manual.empty_description') %>
+        </blockquote>
+        <hr/>
+        <blockquote class="card-blockquote user-name">
+          <div class="row">
+            <div class="col-4">
+              <%= manual.user %>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+              <%= manual.created_at.to_date %>
+            </div>
+          </div>
+        </blockquote>
+      </div>
+    </div>
+  </div>

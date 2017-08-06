@@ -3,10 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { removePage } from '../actions/actions.js';
 import { selectCurrentPage } from '../actions/actions.js';
+import Preview from './SortablePages.js';
 import Page from './page.js';
 import CurrentPage from './current_page.js';
+import Rnd from 'react-rnd';
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+
 
 const Pages = ({ pages, index, onPageClick, onKeyDeleteDown }) => {
+  const PagesPreview = (pages)=>{
+     return pages.map(page =>
+        <Page
+          key = {page.id}  
+          {...page}
+          onClick={() => onPageClick(page.id)}
+          onKeyPress={() => onKeyDeleteDown(page.id)}
+        />
+      );
+  }
+
   let currentPage = pages[index];
   let cp = null;
   if (currentPage){
@@ -14,17 +29,11 @@ const Pages = ({ pages, index, onPageClick, onKeyDeleteDown }) => {
   }
   return (
   <div className="pages">
-  <div className="preview">
-    {pages.map(page =>
-      <Page
-        key={page.id}
-        {...page}
-        onClick={() => onPageClick(page.id)}
-        onKeyPress={() => onKeyDeleteDown(page.id)}
-      />
-    )}
-  </div>
-  {cp}
+    {/* <div className="preview">
+      {PagesPreview(pages)}
+    </div>*/}
+    <Preview pages = {pages}/>
+   {cp}
   </div>
   )
 };

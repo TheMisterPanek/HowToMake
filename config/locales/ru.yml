@@ -21,6 +21,7 @@ ru:
       new: "Создать пользователя"
     manual:
       new: "Создать инструкцию"
+      clear: "Показать все"
     category:
       new: "Создать категорию"
     devise:
@@ -33,6 +34,7 @@ ru:
       log_out: "Выйти"
   view:
     search: "Поиск"
+    empty_find_result: "По вашему запросу ничего не найдено" 
     manuals: "Инструкции"
     users: "Пользователи"
     categories: "Категории"
@@ -49,6 +51,11 @@ ru:
       details: "Сведения о пользователе"
     manual:
       details: "Сведения о инструкции"
+      empty_description: "Описание отсутсвует"
+      count_manual: "Количество инструкций"
+      new: "Новая"
+      my: "Редактируемая"
+      countPages: "Количество шагов"
     category:
       details: "Сведения о категории"
    
