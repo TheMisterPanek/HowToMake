@@ -8,6 +8,7 @@ import { addPage } from '../actions/actions.js';
 class ConnectionState extends React.Component{
   componentWillMount() {
     let _dispatch = this.props.dispatch;
+  
     createSubscription({channel: "ManualsChannel", manual_id: this.props.manualId},
       {
         connected: function() {

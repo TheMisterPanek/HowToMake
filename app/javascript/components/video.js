@@ -24,11 +24,22 @@ class VideoBlock extends React.Component {
     this.props.onBlockResize(this.props.id, data, delta.width, delta.height);
   }
 
+
   render() {
+
+    const showHandlers = (allowEdit,block)=>{
+      if(allowEdit){
+        return block;
+      }
+      else
+      {
+        return null;
+      }
+    }
     return (
       <Rnd 
         lockAspectRatio = {true}
-        className="image-block-container"
+        className={this.props.allowEdit?"image-block-container":""}
         bounds = "parent" 
         minHeight = '50'
         minWidth = '50'
@@ -42,10 +53,14 @@ class VideoBlock extends React.Component {
         dragHandlerClassName={".drag-handler"}
       >
         <div >
-          <div className="drag-handler">
-            <TiArrowMoveOutline />
-          </div>  
-          <RemoveHandler block_id = {id}/> 
+          {showHandlers(this.props.allowEdit,
+              <div>
+                <div className="drag-handler">
+                <TiArrowMoveOutline />
+                </div>
+                <RemoveHandler block_id = {this.props.id}/> 
+              </div>
+          )}
           <iframe src={this.props.data.url}></iframe>
         </div>
       </Rnd>
@@ -58,6 +73,12 @@ VideoBlock.propTypes = {
    onBlockResize: PropTypes.func.isRequired,
  };
 
+const mapStateToProps = (state) =>{
+  return{
+    allowEdit: state.getIn(['manual','edit_mode']),
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onBlockResize: (id, direction, w, h) => {
@@ -69,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(undefined, mapDispatchToProps)(VideoBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoBlock);

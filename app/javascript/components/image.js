@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Rnd from 'react-rnd';
 import { connect } from 'react-redux';
 import {moveBlock, resizeBlock} from '../actions/actions.js';
-
+import RemoveHandler from './Buttons/RemoveHandler.js';
 
 class ImageBlock extends React.Component {
   constructor(props) {
@@ -21,6 +21,15 @@ class ImageBlock extends React.Component {
   }
 
   render() {
+    const showHandlers = (allowEdit,block)=>{
+      if(allowEdit){
+        return block;
+      }
+      else
+      {
+        return null;
+      }
+    }
     return (
       <Rnd 
         lockAspectRatio = {true}
@@ -48,6 +57,7 @@ class ImageBlock extends React.Component {
         onResizeStop = {this.onResize}
       >
         <div >
+          {showHandlers(this.props.allowEdit,<RemoveHandler block_id = {this.props.id}/>)}
           <img className = "image-block"  src = {this.props.data.url}></img>
         </div>
       </Rnd>

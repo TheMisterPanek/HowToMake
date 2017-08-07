@@ -120,6 +120,7 @@
   top: -25px;
   height: 25px;
   width: 25px;
+  cursor: default;
 }
 
 
@@ -188,4 +189,12 @@ a.block-href{
 
 .btn-to-right{
   float: right;
+}
+
+.card:hover{
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.card{
+  max-height: 200px;
 }

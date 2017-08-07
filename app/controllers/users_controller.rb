@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update(user_params)
+    @user.update_attributes!(user_params)
     sign_in :user, @user, bypass: true if current_user == @user
     respond_with(@user)
   end
@@ -46,6 +46,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:uid, :name, :password, :password_confirmation, :role)
+    params.require(:user).permit(:uid, :name, :nickname, :hobbys, :locale)
   end
 end

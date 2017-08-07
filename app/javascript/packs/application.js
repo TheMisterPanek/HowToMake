@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     const rootReducer = combineReducers({ manual, connection });
     const store = createStore(rootReducer,
-                              fromJS({manual: data, connection: {connected: false}}),
+                              fromJS({manual: data, connection: {connected: false, allowEdit: data.edit_mode}}),
                               composeEnhancers(applyMiddleware(thunk)));
     ReactDOM.render(
       <Provider store={store}>
