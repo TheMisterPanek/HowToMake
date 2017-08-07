@@ -21,9 +21,9 @@ class Manual < ApplicationRecord
     attributes page: ["pages.title"]
   end
 
+  validates :category_id, presence: true
+  validates :name, length: {within: 5..30}
 
-
-  validates :name, :category_id, presence: true
   belongs_to :category, counter_cache: true
   belongs_to :user
   has_many :pages, -> {order(position: :asc)}, dependent: :destroy

@@ -5,14 +5,14 @@
   </div>
 </div>
 
-
-
-
 <p>
   <strong><%= Manual.human_attribute_name("author") %>:</strong>
   <%= @manual.user %>
 </p>
  <%= content_tag :div, nil, id: "manual", data: { "initial-state" => manual_json(@manual)} %>
+<% if can? :update, @manual %>
+  <%= link_to t('action.edit'), edit_manual_path(@manual), class: "btn btn-primary" %> |
+  <%= link_to t('action.destroy'), manual_path(@manual), class: "btn btn-primary", method: :delete %> |
+<% end %> 
 
-<%= link_to t('action.edit'), edit_manual_path(@manual) %> |
-<%= link_to t('action.back'), manuals_path %>
+<%= link_to t('action.back'), manuals_path, class: "btn btn-primary" %>

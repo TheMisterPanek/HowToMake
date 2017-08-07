@@ -34,12 +34,11 @@ class User < ApplicationRecord
   # :timeoutable and :validatable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :confirmable, :omniauthable, omniauth_providers: %i[facebook twitter vkontakte]
+         :omniauthable, omniauth_providers: %i[facebook twitter vkontakte]
 
   validates :email, format: { with: Devise.email_regexp }, if: :provider_email?
   validates :uid, presence: true, uniqueness: { case_sensitive: false }, unless: :provider_email?
-  validates :password, presence: true, confirmation: true, length: { within: 6..40 }, on: :create
-  validates :password, confirmation: true, length: { within: 6..40 }, allow_blank: true, on: :update
+
 
   has_many :manuals, dependent: :destroy
   has_many :achievements, dependent: :destroy
@@ -76,6 +75,28 @@ class User < ApplicationRecord
   def to_s
     name == '' ? email : name
   end
+
+
+def update_with_password(params, *options)
+    current_password = params.delete(:current_password)
+
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = if params[:password].blank? || valid_password?(current_password)
+      update_attributes(params, *options)
+    else
+      self.assign_attributes(params, *options)
+      self.valid?
+      self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+      false
+    end
+
+    clean_up_passwords
+    result
+end
 
   private
 

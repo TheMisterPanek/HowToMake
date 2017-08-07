@@ -10,6 +10,7 @@ module ManualsHelper
     end
   end
   def my_manual? manual
+    can? :edit, manual
     if(manual.user_id == (current_user||User.new).id) 
       content_tag( :span, t('view.manual.my'), :class=>%w[badge badge-success])
     end
@@ -19,5 +20,19 @@ module ManualsHelper
     if(manuals.empty?)
       content_tag :h3, t("view.empty_find_result")
     end
+  end
+
+  def manual_head manual
+    slice_text manual.name, 45
+  end
+
+  def manual_body text
+    slice_text text,125
+  end
+
+  def slice_text text, count
+    res = text.slice(0,count)
+    res+= '...' if text.length>count
+    res
   end
 end

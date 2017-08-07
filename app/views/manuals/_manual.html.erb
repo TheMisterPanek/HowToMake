@@ -1,13 +1,13 @@
 <div class="col-6 post-preview" onClick="window.location.href = '<%= manual_path(manual.id) %>';">
       <div class="card">
       <div class="card-header">
-        <%= manual.name %>
+        <%= manual_head manual %>
         <%= new_manual?(manual) %>
         <%= my_manual?(manual) %>
       </div>
       <div class="card-block">
         <blockquote class="card-blockquote">
-          <%= manual.description||t('view.manual.empty_description') %>
+          <%= manual_body (manual.description||t('view.manual.empty_description')) %>
         </blockquote>
         <hr/>
         <blockquote class="card-blockquote user-name">

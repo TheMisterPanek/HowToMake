@@ -17,15 +17,19 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    added_attrs = %i[name password password_confirmation locale remember_me]
+    added_attrs = %i[name locale remember_me]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
   def set_locale
     logger.debug "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
-    I18n.locale = extract_locale_from_accept_language_header
-    I18n.locale = current_user.locale if current_user
+    if(current_user)
+      cookies[:locale] = current_user.locale
+      I18n.locale = current_user.locale
+    else
+      I18n.locale = cookies[:locale]|| extract_locale_from_accept_language_header
+    end
     logger.debug "* Locale set to '#{I18n.locale}'"
   end
 
